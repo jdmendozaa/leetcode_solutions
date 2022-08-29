@@ -1,5 +1,5 @@
 #include <iostream>
-#include <forward_list>
+#include <vector>
 
 using namespace std;
 
@@ -15,22 +15,25 @@ struct TreeNode
 
 class Solution {
 public:
-    TreeNode *x;
-    TreeNode* invertTree(TreeNode* root) {
-        invert(root);
-        return root;
+    vector<string> s;
+    vector<string> binaryTreePaths(TreeNode* root) {
+        printPaths(root, std::to_string(root->val));
+        return s;
     }
 
-    void invert(TreeNode* root) { 
-        if (!root) { 
+    void printPaths(TreeNode* root, string currentPath) {
+        if (!root->left && !root->right) { 
+            s.push_back(currentPath);
             return;
         }
-        x = root->left;
-        root->left = root->right;
-        root->right = x;
         
-        invert(root->left);
-        invert(root->right);
+        if(root->left) { 
+            printPaths(root->left, currentPath + "->" + std::to_string(root->left->val));
+        }
+
+        if(root->right) { 
+            printPaths(root->right, currentPath + "->" + std::to_string(root->right->val));
+        }
     }
 };
 
